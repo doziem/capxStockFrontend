@@ -10,6 +10,7 @@ import TableRow from "@mui/material/TableRow";
 // import { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SendIcon from "@mui/icons-material/Send";
+import { useNavigate } from "react-router-dom";
 
 const columns = [
   { id: "name", label: "Name", minWidth: 100 },
@@ -54,157 +55,6 @@ function createData(name, ticker, quantity, volum, price, action) {
   return { name, ticker, quantity, volum, price, action };
 }
 
-const rows = [
-  createData(
-    "India",
-    "IN",
-    1324171354,
-    32872,
-    32872,
-    <Stack direction="row" spacing={2}>
-      <Button variant="outlined" startIcon={<DeleteIcon />}>
-        Delete
-      </Button>
-      <Button variant="contained" endIcon={<SendIcon />}>
-        Send
-      </Button>
-    </Stack>
-  ),
-  createData(
-    "China",
-    "CN",
-    1403509,
-    9596961,
-    32872,
-    <Stack direction="row" spacing={2}>
-      <Button variant="outlined" startIcon={<DeleteIcon />}>
-        Delete
-      </Button>
-      <Button variant="contained" endIcon={<SendIcon />}>
-        Send
-      </Button>
-    </Stack>
-  ),
-  createData(
-    "Italy",
-    "IT",
-    604839,
-    301340,
-    32872,
-    <Stack direction="row" spacing={2}>
-      <Button variant="outlined" startIcon={<DeleteIcon />}>
-        Delete
-      </Button>
-      <Button variant="contained" endIcon={<SendIcon />}>
-        Send
-      </Button>
-    </Stack>
-  ),
-  createData(
-    "United States",
-    "US",
-    3271674,
-    9833520,
-    32872,
-    <Stack direction="row" spacing={2}>
-      <Button variant="outlined" startIcon={<DeleteIcon />}>
-        Delete
-      </Button>
-      <Button variant="contained" endIcon={<SendIcon />}>
-        Send
-      </Button>
-    </Stack>
-  ),
-  createData(
-    "Canada",
-    "CA",
-    3760210,
-    9984670,
-    32872,
-    <Typography>click</Typography>
-  ),
-  createData(
-    "Australia",
-    "AU",
-    2547540,
-    7692024,
-    32872,
-    <Typography>click</Typography>
-  ),
-  createData(
-    "Germany",
-    "DE",
-    8301920,
-    357578,
-    32872,
-    <Typography>click</Typography>
-  ),
-  createData(
-    "Ireland",
-    "IE",
-    4857000,
-    70273,
-    32872,
-    <Typography>click</Typography>
-  ),
-  createData(
-    "Mexico",
-    "MX",
-    1265776,
-    1972550,
-    32872,
-    <Typography>click</Typography>
-  ),
-  createData(
-    "Japan",
-    "JP",
-    1263170,
-    377973,
-    32872,
-    <Typography>click</Typography>
-  ),
-  createData(
-    "France",
-    "FR",
-    670220,
-    640679,
-    32872,
-    <Typography>click</Typography>
-  ),
-  createData(
-    "United Kingdom",
-    "GB",
-    675457,
-    242495,
-    32872,
-    <Typography>click</Typography>
-  ),
-  createData(
-    "Russia",
-    "RU",
-    14679374,
-    17098246,
-    32872,
-    <Typography>click</Typography>
-  ),
-  createData(
-    "Nigeria",
-    "NG",
-    2009624,
-    923768,
-    32872,
-    <Typography>click</Typography>
-  ),
-  createData(
-    "Brazil",
-    "BR",
-    2101471,
-    8515767,
-    32872,
-    <Typography>click</Typography>
-  ),
-];
-
 const HomeTable = () => {
   //   const [page, setPage] = useState(0);
   //   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -217,6 +67,163 @@ const HomeTable = () => {
   //     setRowsPerPage(+event.target.value);
   //     setPage(0);
   //   };
+
+  const navigation = useNavigate();
+
+  const rows = [
+    createData(
+      "India",
+      "IN",
+      1324171354,
+      32872,
+      32872,
+      <Stack direction="row" spacing={2}>
+        <Button
+          variant="outlined"
+          startIcon={<DeleteIcon />}
+          onClick={() => navigation(`/stock/2`)}
+        >
+          Delete
+        </Button>
+        <Button variant="contained" endIcon={<SendIcon />}>
+          Send
+        </Button>
+      </Stack>
+    ),
+    createData(
+      "China",
+      "CN",
+      1403509,
+      9596961,
+      32872,
+      <Stack direction="row" spacing={2}>
+        <Button variant="outlined" startIcon={<DeleteIcon />}>
+          Delete
+        </Button>
+        <Button variant="contained" endIcon={<SendIcon />}>
+          Send
+        </Button>
+      </Stack>
+    ),
+    createData(
+      "Italy",
+      "IT",
+      604839,
+      301340,
+      32872,
+      <Stack direction="row" spacing={2}>
+        <Button variant="outlined" startIcon={<DeleteIcon />}>
+          Delete
+        </Button>
+        <Button variant="contained" endIcon={<SendIcon />}>
+          Send
+        </Button>
+      </Stack>
+    ),
+    createData(
+      "United States",
+      "US",
+      3271674,
+      9833520,
+      32872,
+      <Stack direction="row" spacing={2}>
+        <Button variant="outlined" startIcon={<DeleteIcon />}>
+          Delete
+        </Button>
+        <Button variant="contained" endIcon={<SendIcon />}>
+          Send
+        </Button>
+      </Stack>
+    ),
+    createData(
+      "Canada",
+      "CA",
+      3760210,
+      9984670,
+      32872,
+      <Typography>click</Typography>
+    ),
+    createData(
+      "Australia",
+      "AU",
+      2547540,
+      7692024,
+      32872,
+      <Typography>click</Typography>
+    ),
+    createData(
+      "Germany",
+      "DE",
+      8301920,
+      357578,
+      32872,
+      <Typography>click</Typography>
+    ),
+    createData(
+      "Ireland",
+      "IE",
+      4857000,
+      70273,
+      32872,
+      <Typography>click</Typography>
+    ),
+    createData(
+      "Mexico",
+      "MX",
+      1265776,
+      1972550,
+      32872,
+      <Typography>click</Typography>
+    ),
+    createData(
+      "Japan",
+      "JP",
+      1263170,
+      377973,
+      32872,
+      <Typography>click</Typography>
+    ),
+    createData(
+      "France",
+      "FR",
+      670220,
+      640679,
+      32872,
+      <Typography>click</Typography>
+    ),
+    createData(
+      "United Kingdom",
+      "GB",
+      675457,
+      242495,
+      32872,
+      <Typography>click</Typography>
+    ),
+    createData(
+      "Russia",
+      "RU",
+      14679374,
+      17098246,
+      32872,
+      <Typography>click</Typography>
+    ),
+    createData(
+      "Nigeria",
+      "NG",
+      2009624,
+      923768,
+      32872,
+      <Typography>click</Typography>
+    ),
+    createData(
+      "Brazil",
+      "BR",
+      2101471,
+      8515767,
+      32872,
+      <Typography>click</Typography>
+    ),
+  ];
 
   return (
     <Paper sx={{ width: "100%" }}>

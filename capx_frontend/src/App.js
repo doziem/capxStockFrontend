@@ -7,13 +7,11 @@ import StockDetails from "./StockDetails";
 function App(props) {
   return (
     <Router>
-      <div>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/stock" element={<StockDetails />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/stock/:id" element={<StockDetails />} />
+      </Routes>
     </Router>
   );
 }
