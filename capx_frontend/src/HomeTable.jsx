@@ -1,16 +1,28 @@
-import { Button, Stack, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import {
+  Button,
+  Stack,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Box,
+  Select,
+  TextField,
+} from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
-// import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-// import { useState } from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
-import SendIcon from "@mui/icons-material/Send";
-import { useNavigate } from "react-router-dom";
+import baseUrl from "./api.js";
+import api from "./api.js";
+import axios from "axios";
 
 const columns = [
   { id: "name", label: "Name", minWidth: 100 },
@@ -29,8 +41,8 @@ const columns = [
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    id: "volum",
-    label: "Volum",
+    id: "volume",
+    label: "Volume",
     minWidth: 100,
     align: "left",
     format: (value) => value.toLocaleString("en-US"),
@@ -51,179 +63,146 @@ const columns = [
   },
 ];
 
-function createData(name, ticker, quantity, volum, price, action) {
-  return { name, ticker, quantity, volum, price, action };
-}
-
 const HomeTable = () => {
-  //   const [page, setPage] = useState(0);
-  //   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [selectedStock, setSelectedStock] = useState({});
+  const [stockData, setStockData] = useState([]);
+  const [selectedPortfolio, setSelectedPortfolio] = useState("");
+  const [portfolioData, setPortfolioData] = useState([]);
+  const [openDelete, setOpenDelete] = useState(false);
 
-  //   const handleChangePage = (event, newPage) => {
-  //     setPage(newPage);
-  //   };
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
 
-  //   const handleChangeRowsPerPage = (event) => {
-  //     setRowsPerPage(+event.target.value);
-  //     setPage(0);
-  //   };
+  const [stockId, setStockId] = useState();
 
-  const navigation = useNavigate();
+  const handleOpenDelete = (data) => {
+    setStockId(data);
+    setOpenDelete(true);
+  };
 
-  const rows = [
+  const handleDeleteStock = async () => {
+    try {
+      await api.delete(`/stocks/${stockId}`);
+      handleCloseDelete();
+    } catch (error) {}
+  };
+
+  const [formData, setFormData] = useState({
+    name: selectedStock.name,
+    ticker: selectedStock.ticker,
+    buyPrice: selectedStock.buyPrice,
+    quantity: selectedStock.quantity,
+    volume: selectedStock.volume,
+  });
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = (data) => {
+    setSelectedStock(data);
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason !== "backdropClick") {
+      setOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllStock();
+  }, []);
+
+  const fetchAllStock = async () => {
+    try {
+      const response = await baseUrl.get("/stocks/all/stock");
+
+      setStockData(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  function createData(name, ticker, quantity, volume, price, action) {
+    return { name, ticker, quantity, volume, price, action };
+  }
+
+  const rows = stockData.map((data) =>
     createData(
-      "India",
-      "IN",
-      1324171354,
-      32872,
-      32872,
+      data.name,
+      data.ticker,
+      data.quantity,
+      data.volume,
+      data.buyPrice,
       <Stack direction="row" spacing={2}>
+        <Button variant="outlined" onClick={() => handleClickOpen(data)}>
+          Edit
+        </Button>
         <Button
-          variant="outlined"
-          startIcon={<DeleteIcon />}
-          onClick={() => navigation(`/stock/2`)}
+          variant="contained"
+          onClick={() => handleOpenDelete(data.id)}
+          sx={{ background: "red" }}
         >
           Delete
         </Button>
-        <Button variant="contained" endIcon={<SendIcon />}>
-          Send
-        </Button>
       </Stack>
-    ),
-    createData(
-      "China",
-      "CN",
-      1403509,
-      9596961,
-      32872,
-      <Stack direction="row" spacing={2}>
-        <Button variant="outlined" startIcon={<DeleteIcon />}>
-          Delete
-        </Button>
-        <Button variant="contained" endIcon={<SendIcon />}>
-          Send
-        </Button>
-      </Stack>
-    ),
-    createData(
-      "Italy",
-      "IT",
-      604839,
-      301340,
-      32872,
-      <Stack direction="row" spacing={2}>
-        <Button variant="outlined" startIcon={<DeleteIcon />}>
-          Delete
-        </Button>
-        <Button variant="contained" endIcon={<SendIcon />}>
-          Send
-        </Button>
-      </Stack>
-    ),
-    createData(
-      "United States",
-      "US",
-      3271674,
-      9833520,
-      32872,
-      <Stack direction="row" spacing={2}>
-        <Button variant="outlined" startIcon={<DeleteIcon />}>
-          Delete
-        </Button>
-        <Button variant="contained" endIcon={<SendIcon />}>
-          Send
-        </Button>
-      </Stack>
-    ),
-    createData(
-      "Canada",
-      "CA",
-      3760210,
-      9984670,
-      32872,
-      <Typography>click</Typography>
-    ),
-    createData(
-      "Australia",
-      "AU",
-      2547540,
-      7692024,
-      32872,
-      <Typography>click</Typography>
-    ),
-    createData(
-      "Germany",
-      "DE",
-      8301920,
-      357578,
-      32872,
-      <Typography>click</Typography>
-    ),
-    createData(
-      "Ireland",
-      "IE",
-      4857000,
-      70273,
-      32872,
-      <Typography>click</Typography>
-    ),
-    createData(
-      "Mexico",
-      "MX",
-      1265776,
-      1972550,
-      32872,
-      <Typography>click</Typography>
-    ),
-    createData(
-      "Japan",
-      "JP",
-      1263170,
-      377973,
-      32872,
-      <Typography>click</Typography>
-    ),
-    createData(
-      "France",
-      "FR",
-      670220,
-      640679,
-      32872,
-      <Typography>click</Typography>
-    ),
-    createData(
-      "United Kingdom",
-      "GB",
-      675457,
-      242495,
-      32872,
-      <Typography>click</Typography>
-    ),
-    createData(
-      "Russia",
-      "RU",
-      14679374,
-      17098246,
-      32872,
-      <Typography>click</Typography>
-    ),
-    createData(
-      "Nigeria",
-      "NG",
-      2009624,
-      923768,
-      32872,
-      <Typography>click</Typography>
-    ),
-    createData(
-      "Brazil",
-      "BR",
-      2101471,
-      8515767,
-      32872,
-      <Typography>click</Typography>
-    ),
-  ];
+    )
+  );
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]:
+        name === "buyPrice" || name === "quantity" || name === "volume"
+          ? Number(value)
+          : value,
+    }));
+  };
+
+  const handlePortfolioChange = (event) => {
+    console.log(event.target.value);
+    setSelectedPortfolio(event.target.value);
+  };
+
+  const fetchAllPortfolio = async () => {
+    try {
+      const response = await baseUrl.get("/portfolio/all");
+
+      setPortfolioData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllPortfolio();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+    try {
+      const response = await axios.put(
+        `http://localhost:8282/api/stocks/${selectedStock.id}/update`,
+        {
+          name: formData.name || selectedStock.name,
+          ticker: formData.ticker || selectedStock.ticker,
+          buyPrice: Number(formData.buyPrice) || selectedStock.buyPrice,
+          quantity: Number(formData.quantity) || selectedStock.quantity,
+          volume: Number(formData.volume) || selectedStock.volume,
+          portfolio: { name: selectedPortfolio } || selectedStock.portfolio,
+        }
+      );
+
+      console.log("updated Stock::::", response.data);
+      fetchAllStock();
+      fetchAllPortfolio();
+      handleClose();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Paper sx={{ width: "100%" }}>
@@ -231,9 +210,9 @@ const HomeTable = () => {
         <Table stickyHeader aria-label="sticky table" o>
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
+              {columns.map((column, index) => (
                 <TableCell
-                  key={column.id}
+                  key={index}
                   align={column.align}
                   sx={{
                     minWidth: {
@@ -253,13 +232,13 @@ const HomeTable = () => {
           <TableBody>
             {rows
               //   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+              .map((row, index) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
+                  <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                    {columns.map((column, index) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} align={column.align}>
+                        <TableCell key={index} align={column.align}>
                           {column.format && typeof value === "number"
                             ? column.format(value)
                             : value}
@@ -272,6 +251,138 @@ const HomeTable = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
+        <DialogTitle sx={{ textAlign: "center" }}>Edit Stock</DialogTitle>
+        <DialogContent>
+          <Box
+            component="form"
+            // onSubmit={handleSubmit}
+            sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}
+          >
+            <TextField
+              label="Stock Name"
+              name="name"
+              value={formData.name}
+              defaultValue={selectedStock.name}
+              onChange={handleInputChange}
+              variant="outlined"
+              fullWidth
+              required
+            />
+            <TextField
+              label="Ticker"
+              name="ticker"
+              value={formData.ticker}
+              defaultValue={selectedStock.ticker || ""}
+              onChange={handleInputChange}
+              variant="outlined"
+              fullWidth
+              required
+            />
+            <TextField
+              label="Buy Price"
+              name="buyPrice"
+              type="number"
+              value={formData.buyPrice}
+              defaultValue={selectedStock.buyPrice || ""}
+              onChange={handleInputChange}
+              variant="outlined"
+              fullWidth
+              required
+            />
+            <TextField
+              label="Quantity"
+              name="quantity"
+              type="number"
+              value={formData.quantity}
+              defaultValue={selectedStock.quantity || ""}
+              onChange={handleInputChange}
+              variant="outlined"
+              fullWidth
+            />
+
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">
+                Select Portfolio
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Portfolio"
+                onChange={handlePortfolioChange}
+                // renderValue={(value) => value}
+                value={selectedPortfolio || ""}
+              >
+                {portfolioData.map((option) => (
+                  <MenuItem key={option.id} value={option.name}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
+            <TextField
+              label="Volume"
+              name="volume"
+              value={formData.volume}
+              defaultValue={selectedStock.volume || ""}
+              onChange={handleInputChange}
+              variant="outlined"
+              fullWidth
+              required
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            type="submit"
+            variant="contained"
+            // fullWidth
+            sx={{
+              background: "#fc4000",
+              my: 2,
+              py: 1,
+              color: "#fff",
+              fontSize: "12px",
+              mr: 8,
+            }}
+            onClick={handleSubmit}
+          >
+            {/* {isEditable ? "Enable Edit" : "Update Stock"} */}Update Stock
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        disableEscapeKeyDown
+        open={openDelete}
+        onClose={handleCloseDelete}
+      >
+        <DialogTitle
+          sx={{ cursor: "pointer", textAlign: "right" }}
+          onClick={handleCloseDelete}
+        >
+          X
+        </DialogTitle>
+        <DialogContent sx={{ textAlign: "center" }}>
+          Are you you want to delete this stock?
+        </DialogContent>
+
+        <DialogActions>
+          <Button
+            sx={{
+              background: "red",
+              color: "#fff",
+              textTransform: "capitalize",
+            }}
+            onClick={handleDeleteStock}
+          >
+            Delete Stock
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Paper>
   );
 };

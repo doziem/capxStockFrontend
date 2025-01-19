@@ -4,34 +4,17 @@ import TextField from "@mui/material/TextField";
 import {
   Button,
   FormControl,
-  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
   Typography,
 } from "@mui/material";
-
-const currencies = [
-  {
-    value: "USD",
-    label: "$",
-  },
-  {
-    value: "EUR",
-    label: "€",
-  },
-  {
-    value: "BTC",
-    label: "฿",
-  },
-  {
-    value: "JPY",
-    label: "¥",
-  },
-];
+import baseUrl from "./api.js";
+import { useEffect, useState } from "react";
 
 export default function StockDetails() {
-  const [age, setAge] = React.useState("");
+  const [portfolioData, setPortfolioData] = useState([]);
+  const [selectedPortfolio, setSelectedPortfolio] = useState("");
 
   const [formData, setFormData] = React.useState({
     name: "",
@@ -41,18 +24,56 @@ export default function StockDetails() {
     volume: 0,
   });
 
+  const fetchAllPortfolio = async () => {
+    try {
+      const response = await baseUrl.get("/portfolio/all");
+
+      setPortfolioData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(portfolioData);
+
+  useEffect(() => {
+    fetchAllPortfolio();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form submitted:", formData);
+    const stock = {
+      ...formData,
+      buyPrice: Number(formData.buyPrice),
+      quantity: Number(formData.quantity),
+      volume: Number(formData.volume),
+      portfolio: { name: selectedPortfolio },
+    };
+    console.log(stock);
+    try {
+      const res = await baseUrl.post("/stocks/create", {
+        ...formData,
+        buyPrice: Number(formData.buyPrice),
+        quantity: Number(formData.quantity),
+        volume: Number(formData.volume),
+        portfolio: { name: selectedPortfolio },
+      });
+
+      console.log("Stock::::", res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleAgeChange = (event) => {
-    setAge(event.target.value);
+  const handlePortfolioChange = (event) => {
+    console.log(event.target.value);
+
+    setSelectedPortfolio(event.target.value);
   };
 
   return (
@@ -62,18 +83,24 @@ export default function StockDetails() {
       sx={{
         display: "flex",
         flexDirection: "column",
-        gap: 4,
+        gap: 2,
         maxWidth: 500,
         margin: "auto",
+        border: "1px solid #f4f4f4",
+        px: 4,
+        borderRadius: "10px",
       }}
     >
       <Box sx={{ my: 4, mx: "auto" }}>
-        <Typography variant="h2" sx={{ color: "#fc4000" }}>
-          Create Stock
+        <Typography
+          variant="h2"
+          sx={{ color: "#fc4000", fontSize: { xs: "20px", sm: "34px" } }}
+        >
+          Stock Creation
         </Typography>
       </Box>
       <TextField
-        label="Name"
+        label="Stock Name"
         name="name"
         value={formData.name}
         onChange={handleChange}
@@ -108,41 +135,26 @@ export default function StockDetails() {
         variant="outlined"
         fullWidth
       />
-      <TextField
-        id="outlined-select-currency"
-        select
-        label="Select"
-        defaultValue="EUR"
-        helperText="Please select your currency"
-      >
-        {currencies.map((option) => (
-          <>
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </>
-        ))}
-      </TextField>
-      {/* <FormControl sx={{ m: 1, minWidth: 120 }} error>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Select Portfolio</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={age}
-          label="Age"
-          onChange={handleAgeChange}
-          renderValue={(value) => `⚠️  - ${value}`}
+          label="Portfolio"
+          onChange={handlePortfolioChange}
+          renderValue={(value) => value}
+          value={selectedPortfolio}
         >
-          {currencies.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
+          {portfolioData.map((option) => (
+            <MenuItem key={option.id} value={option.name}>
+              {option.name}
             </MenuItem>
           ))}
 
           <MenuItem value={30}>Thirty</MenuItem>
         </Select>
-      </FormControl> */}
+      </FormControl>
       <TextField
         label="Volume"
         name="volume"
@@ -159,12 +171,12 @@ export default function StockDetails() {
         sx={{
           background: "#fc4000",
           my: 2,
-          py: 2,
+          py: 1,
           color: "#fff",
-          fontSize: "18px",
+          fontSize: "14px",
         }}
       >
-        Submit
+        Create Stock
       </Button>
     </Box>
   );
