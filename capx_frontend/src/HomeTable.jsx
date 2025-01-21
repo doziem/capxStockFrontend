@@ -135,13 +135,24 @@ const HomeTable = () => {
       data.volume,
       data.buyPrice,
       <Stack direction="row" spacing={2}>
-        <Button variant="outlined" onClick={() => handleClickOpen(data)}>
+        <Button
+          variant="outlined"
+          sx={{ textTransform: "capitalize" }}
+          onClick={() => handleClickOpen(data)}
+        >
           Edit
         </Button>
         <Button
           variant="contained"
+          sx={{ background: "green", textTransform: "capitalize" }}
+          onClick={() => handleClickOpen(data)}
+        >
+          Details
+        </Button>
+        <Button
+          variant="contained"
           onClick={() => handleOpenDelete(data.id)}
-          sx={{ background: "red" }}
+          sx={{ background: "#AA0000", textTransform: "capitalize" }}
         >
           Delete
         </Button>

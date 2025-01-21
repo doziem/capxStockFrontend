@@ -41,12 +41,12 @@ const Dashboard = () => {
     <Grid container spacing={2} marginTop={4} marginBottom={2}>
       <Grid size={12}>
         <Stack
-          direction="row"
+          direction={{ xs: "column", sm: "row" }}
           justifyContent="space-between"
           spacing={2}
-          sx={{ mb: 2 }}
+          sx={{ mb: 2, gap: 2 }}
         >
-          <Typography>Stotck Portfolio Metric</Typography>
+          <Typography variant={"h5"}>Stotck Portfolio Metric</Typography>
           <Button
             variant="contained"
             onClick={() => navigation("stock")}
@@ -60,7 +60,7 @@ const Dashboard = () => {
       <Grid
         size={4}
         sx={{
-          width: { xs: "340px", sm: "220px", md: "200px", lg: "280px" },
+          width: { xs: "100%", sm: "330px", md: "32%", lg: "280px" },
           flexWrap: "wrap",
           display: {},
           gap: 4,
@@ -96,7 +96,7 @@ const Dashboard = () => {
       <Grid
         size={4}
         sx={{
-          width: { xs: "340px", sm: "220px", md: "200px", lg: "280px" },
+          width: { xs: "100%", sm: "330px", md: "32%", lg: "280px" },
           flexWrap: "wrap",
           display: {},
         }}
@@ -131,7 +131,7 @@ const Dashboard = () => {
       <Grid
         size={4}
         sx={{
-          width: { xs: "340px", sm: "220px", md: "200px", lg: "280px" },
+          width: { xs: "100%", sm: "330px", md: "32%", lg: "280px" },
           flexWrap: "wrap",
           display: {},
         }}
@@ -166,7 +166,7 @@ const Dashboard = () => {
       <Grid
         size={4}
         sx={{
-          width: { xs: "340px", sm: "220px", md: "200px", lg: "280px" },
+          width: { xs: "100%", sm: "330px", md: "32%", lg: "280px" },
           flexWrap: "wrap",
           display: {},
         }}
@@ -227,7 +227,7 @@ const Dashboard = () => {
       <Grid
         size={4}
         sx={{
-          width: { xs: "340px", sm: "220px", md: "200px", lg: "280px" },
+          width: { xs: "100%", sm: "330px", md: "32%", lg: "280px" },
           flexWrap: "wrap",
           display: {},
         }}
@@ -288,7 +288,7 @@ const Dashboard = () => {
       <Grid
         size={4}
         sx={{
-          width: { xs: "340px", sm: "220px", md: "200px", lg: "280px" },
+          width: { xs: "100%", sm: "330px", md: "32%", lg: "280px" },
           flexWrap: "wrap",
           display: {},
         }}
@@ -349,7 +349,7 @@ const Dashboard = () => {
       <Grid
         size={4}
         sx={{
-          width: { xs: "340px", sm: "220px", md: "200px", lg: "280px" },
+          width: { xs: "100%", sm: "330px", md: "32%", lg: "280px" },
           flexWrap: "wrap",
           display: {},
         }}

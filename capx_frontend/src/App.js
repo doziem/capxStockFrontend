@@ -1,9 +1,10 @@
 import * as React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Home";
-import About from "./About";
-import StockDetails from "./StockDetails";
+import UserService from "./UserService";
+import StockService from "./StockService";
 import Layout from "./Layout";
+import PortfolioService from "./PortfolioService";
 
 function App(props) {
   return (
@@ -11,8 +12,9 @@ function App(props) {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/stock" element={<StockDetails />} />
+          <Route path="/user" element={<UserService />} />
+          <Route path="/stock" element={<StockService />} />
+          <Route path="/portfolio" element={<PortfolioService />} />C
         </Routes>
       </Layout>
     </Router>

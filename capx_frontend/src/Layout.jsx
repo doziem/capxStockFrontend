@@ -21,8 +21,8 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 const drawerWidth = 240;
 const navItems = [
   { id: 1, name: "Home", route: "/" },
-  { id: 2, name: "About", route: "/about" },
-  { id: 3, name: "Contact", route: "/contact" },
+  { id: 2, name: "Portfolio", route: "/portfolio" },
+  { id: 3, name: "User", route: "/user" },
 ];
 
 const Layout = ({ window, children }) => {
@@ -78,7 +78,7 @@ const Layout = ({ window, children }) => {
             {navItems.map((item) => (
               <Button
                 key={item.id}
-                sx={{ color: "#000" }}
+                sx={{ color: "#000", textTransform: "capitalize" }}
                 onClick={() => navigation(`${item.route}`)}
               >
                 {item.name}

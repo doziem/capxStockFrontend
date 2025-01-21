@@ -13,7 +13,7 @@ import baseUrl from "./api.js";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function StockDetails() {
+export default function StockService() {
   const [portfolioData, setPortfolioData] = useState([]);
   const [selectedPortfolio, setSelectedPortfolio] = useState("");
 
@@ -63,14 +63,19 @@ export default function StockDetails() {
       );
 
       console.log("Stock::::", res.data);
+      setFormData({
+        name: "",
+        ticker: "",
+        buyPrice: 0,
+        quantity: 0,
+        volume: 0,
+      });
     } catch (error) {
       console.log(error);
     }
   };
 
   const handlePortfolioChange = (event) => {
-    console.log(event.target.value);
-
     setSelectedPortfolio(event.target.value);
   };
 

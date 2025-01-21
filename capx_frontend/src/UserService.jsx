@@ -1,7 +1,7 @@
 import React from "react";
 
-const About = () => {
+const UserService = () => {
   return <div>Hello jkdjfv</div>;
 };
 
-export default About;
+export default UserService;
