@@ -46,7 +46,7 @@ const Dashboard = () => {
           spacing={2}
           sx={{ mb: 2 }}
         >
-          <Button variant="outlined">Send</Button>
+          <Typography>Stotck Portfolio Metric</Typography>
           <Button
             variant="contained"
             onClick={() => navigation("stock")}

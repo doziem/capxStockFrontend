@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import baseUrl from "./api.js";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function StockDetails() {
   const [portfolioData, setPortfolioData] = useState([]);
@@ -56,13 +57,10 @@ export default function StockDetails() {
     };
     console.log(stock);
     try {
-      const res = await baseUrl.post("/stocks/create", {
-        ...formData,
-        buyPrice: Number(formData.buyPrice),
-        quantity: Number(formData.quantity),
-        volume: Number(formData.volume),
-        portfolio: { name: selectedPortfolio },
-      });
+      const res = await axios.post(
+        "http://localhost:8282/api/stocks/add",
+        stock
+      );
 
       console.log("Stock::::", res.data);
     } catch (error) {
